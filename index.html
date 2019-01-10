@@ -16,12 +16,37 @@
     h1 {
       text-align: center;
     }
+    th {
+      text-align: left;
+      font-size: 1.5em;
+    }
+    .tablediv {
+      width: 60%;
+      margin: 0 auto;
+    }
+    td {
+      padding: 5px;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
    </style>
   </head>
   <body>
 
   	<h1>Philly Maker Spaces Test Map</h1>
   	<div id="mapid"></div>
+  <div class="tablediv">
+    <table id="mytable">
+      <tr>
+        <th>Name</th>
+    <th>Address</th>
+      </tr>
+      
+    </table>
+  </div>
+
+
 
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
@@ -250,16 +275,6 @@
    "precision": "address"
  },
  {
-   "Name": "Innovation Studio (Drexel Engineering)",
-   "latitude": 39.955809,
-   "longitude": -75.185716,
-   "name": "3101 Market Street, Philadelphia",
-   "desc": "3101 Market Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
    "Name": "No name yet (UArts)",
    "latitude": 51.278315,
    "longitude": 1.085013,
@@ -430,6 +445,16 @@
    "precision": "address"
  },
  {
+   "Name": "Upper Dublin Public Library",
+   "latitude": 39.78373,
+   "longitude": -100.445882,
+   "name": "805 Loch Alsh Ave, Fort Washington",
+   "desc": "US",
+   "color": "",
+   "source": "MapQuest Open",
+   "precision": "country"
+ },
+ {
    "Name": "Independence Seaport Museum",
    "latitude": 39.941446,
    "longitude": -75.142137,
@@ -439,15 +464,15 @@
    "source": "MapQuest Open",
    "precision": "street"
  },
- {
-   "Name": "Upper Dublin Public Library",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "805 Loch Alsh Ave, Fort Washington",
-   "desc": "US",
+  {
+   "Name": "Innovation Studio (Drexel Engineering)",
+   "latitude": 39.955809,
+   "longitude": -75.185716,
+   "name": "3101 Market Street, Philadelphia",
+   "desc": "3101 Market Street, Philadelphia, Philadelphia County, PA, US",
    "color": "",
    "source": "MapQuest Open",
-   "precision": "country"
+   "precision": "address"
  }
 ];
     
@@ -465,28 +490,33 @@
 }).addTo(mymap);
 
 
-var workshopSchool = {   Name: "The Workshop School",
-   latitude: 39.9551504,
-   longitude: -75.2207667,
-   name: "221 Hanson St, Philadelphia, PA",
-   desc: "US",
-   color: "",
-   source: "MapQuest Open",
-   precision: "country",
- };
-
-     // console.log(pmslist[1].latitude);
-
 var i;
 for (i = 0; i < pmslist.length; i++) { 
   var marker = L.marker([pmslist[i].latitude, pmslist[i].longitude]).addTo(mymap);
   marker.bindPopup(pmslist[i].Name).openPopup();
-  console.log(pmslist[i].Name)
+  marker.id = pmslist[i].longitude.toString();
+  console.log("Id of " + pmslist[i].Name + " is " + pmslist[i].longitude.toString() );
+
+}
+var myTable = document.getElementById("mytable");
+
+var z;
+for (z = 0; z < pmslist.length; z++) { 
+  var row = myTable.insertRow(-1);
+
+  var cell1 = row.insertCell(0);
+  cell1.innerHTML = pmslist[z].Name;
+
+
+  var cell2 = row.insertCell(1);
+  cell2.innerHTML = pmslist[z].name;
 }
 
-// var marker = L.marker([39.78373, -75.165222]).addTo(mymap);
-var marker = L.marker([workshopSchool.latitude, workshopSchool.longitude]).addTo(mymap);
-
+// var row = myTable.insertRow(0);
+// var cell1 = row.insertCell(0);
+// var cell2 = row.insertCell(1);
+// cell1.innerHTML = "Name";
+// cell2.innerHTML = "Address";
 
   </script>
   </body>
