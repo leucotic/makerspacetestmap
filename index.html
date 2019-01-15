@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
    crossorigin=""/>
-   
+   <link href="draft1.tsv">
    <style>
    	#mapid { 
    		height: 400px;
@@ -23,6 +23,7 @@
     .tablediv {
       width: 60%;
       margin: 0 auto;
+      min-width: 600px;
     }
     td {
       padding: 5px;
@@ -33,7 +34,6 @@
    </style>
   </head>
   <body>
-
   	<h1>Philly Maker Spaces Test Map</h1>
   	<div id="mapid"></div>
   <div class="tablediv">
@@ -46,7 +46,6 @@
     </table>
   </div>
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://unpkg.com/papaparse@4.6.3/papaparse.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
@@ -55,426 +54,744 @@
    <script type="text/javascript" src="phillymakerspaces.json"></script>
 <script>
    var pmslist = [
- {
-   "Name": "The Workshop School",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "221 Hanson St, Philadelphia, PA",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Science Leadership Academy",
-   "latitude": 39.955758,
-   "longitude": -75.175969,
-   "name": "55 N 22nd St, Philadelphia PA",
-   "desc": "55 North 22nd Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "Roxborough High School (Roxcite STEAM Lab)",
-   "latitude": 39.999645,
-   "longitude": -75.187174,
-   "name": "6498 Ridge Ave, Philadelphia, PA",
-   "desc": "Ridge Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Springside Chestnut Hill (SCH) Academy",
-   "latitude": 40.070014,
-   "longitude": -75.201493,
-   "name": "500 West Willow Grove Avenue, Philadelphia",
-   "desc": "West Willow Grove Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "String Theory School",
-   "latitude": 39.957859,
-   "longitude": -75.166373,
-   "name": "1600 Vine Street, Philadelphia",
-   "desc": "1600 Vine Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "Chester A. Arthur Elementary School",
-   "latitude": 39.95005,
-   "longitude": -75.235825,
-   "name": "2000 Catharine St, Philadelphia",
-   "desc": "Catharine Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "MaST Community Charter School",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "1800 E. Byberry Rd., Philadelphia",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "TechCORE2 (STEM Coding + robotics)",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "7478 Rhoads Street, Suite A, Philadelphia, PA 19151",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "AIM Academy",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "1200 River Road, Conshohocken",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Upper Dublin High School",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "800 Loch Alsh Ave, Fort Washington",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Vincent Elementary School",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "2750 Conestoga Road, Chester Springs",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "The Baldwin School",
-   "latitude": 40.024728,
-   "longitude": -75.31888,
-   "name": "701 Montgomery Ave., Bryn Mawr",
-   "desc": "Montgomery Avenue, Lower Merion Township, Montgomery County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Shipley School",
-   "latitude": 40.024687,
-   "longitude": -75.314594,
-   "name": "814 Yarrow, Bryn Mawr",
-   "desc": "Yarrow Street, Lower Merion Township, Montgomery County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Friends Central School",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "City Avenue Makerspace: 1011 City Avenue, Wynnewood\tUS\t\tMapQuest Open\tcountry\n39.78373\t-100.445882\tUlmer Family Light Lab: 228 Old Gulph Road, Wynnewood",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "John Moffet Elementary School",
-   "latitude": 39.981113,
-   "longitude": -75.187855,
-   "name": "127 W. Oxford St. Philadelphia, 19122",
-   "desc": "West Oxford Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Perelman Jewish Day School ",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "Stern: 49 Haverford Ave, Wynnewood Forman: 7601 Old York Road, Melrose Park",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Shipley's Makerspace",
-   "latitude": 40.024687,
-   "longitude": -75.314594,
-   "name": "814 Yarrow Street, bryn mawr",
-   "desc": "Yarrow Street, Lower Merion Township, Montgomery County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "AddLab (Penn)",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "107 Towne Bldg, Philadelphia",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Perch Design and Fabrication Facility",
-   "latitude": 39.945008,
-   "longitude": -75.180003,
-   "name": "3401 Grays Ferry Ave, Philadelphia, PA 19146",
-   "desc": "Grays Ferry Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Penn Design Studio",
-   "latitude": 39.945008,
-   "longitude": -75.180003,
-   "name": "3401 Grays Ferry Ave, Philadelphia, PA 19146",
-   "desc": "Grays Ferry Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "ExCITe Center (Drexel)",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "3401 Market Street, Suite 100, Philadelphia",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "URBN Center, Hybrid Making Lab (Drexel)",
-   "latitude": 39.956467,
-   "longitude": -75.192949,
-   "name": "3501 Market Street, Philadelphia",
-   "desc": "3501 Market Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "No name yet (UArts)",
-   "latitude": 51.278315,
-   "longitude": 1.085013,
-   "name": "320 South Broad Street",
-   "desc": "Broad Street, Canterbury, Kent, England, GB",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Innovation Factory (La Salle)",
-   "latitude": 40.03902,
-   "longitude": -75.147516,
-   "name": "1900 W Olney Ave, Philadelphia, PA 19141",
-   "desc": "West Olney Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Health & Design Lab \"The Vault\" (Jefferson)",
-   "latitude": 40.022501,
-   "longitude": -75.191934,
-   "name": "4201 Henry Avenue • Philadelphia, PA 19144",
-   "desc": "4201 Henry Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "NextFab (South Philly)",
-   "latitude": 39.939375,
-   "longitude": -75.177554,
-   "name": "2025 Washington Ave, Philadelphia",
-   "desc": "2025 Washington Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "NextFab (North Philly)",
-   "latitude": 39.970887,
-   "longitude": -75.142624,
-   "name": "1227 N 4th Street, Philadelphia",
-   "desc": "1227 North 4th Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "MakerJawn",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "Locations Vary- Philadelphia Free Libraries",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Hive76",
-   "latitude": 39.933512,
-   "longitude": -75.159021,
-   "name": "1901 S. 9th Street, Philadelphia",
-   "desc": "South 9th Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "The Hacktory",
-   "latitude": 39.96509,
-   "longitude": -75.205466,
-   "name": "3645 Lancaster Ave. Philadelphia",
-   "desc": "Lancaster Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Philly Makerhouse",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "3237 Amber St Unit 4-3-B (3rd floor)",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Makerspace at the Franklin Institute",
-   "latitude": 39.958244,
-   "longitude": -75.173079,
-   "name": "222 N 20th St, Philadelphia, PA 19103",
-   "desc": "222 North 20th Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "Metal Incorporated",
-   "latitude": 39.993224,
-   "longitude": -75.124475,
-   "name": "2609 East Cambria St., Philadelphia",
-   "desc": "East Cambria Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "The Village of Arts & Humanities",
-   "latitude": 40.077278,
-   "longitude": -75.208816,
-   "name": "2544 Germantown Ave, Philadelphia",
-   "desc": "Germantown Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
- {
-   "Name": "Second State Press",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "Second State Press 1400 N. American Street, B103 Philadelphia PA 19122",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "PPAC - Philadelphia Photo Arts Center",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "1400 N. American Street #103 Philadelphia, PA 19122",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Handcraft Workshop (Sewing)",
-   "latitude": 40.053246,
-   "longitude": -75.186114,
-   "name": "7224 Germantown Avenue Philadelphia, PA 19119",
-   "desc": "Germantown Avenue, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
   {
-   "Name": "Make717",
-   "latitude": 40.041721,
-   "longitude": -76.279415,
-   "name": "1100 E. Orange Street, Lancaster, PA",
-   "desc": "1100 East Orange Street, Lancaster, Lancaster County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "MakeSpace",
-   "latitude": 40.79291,
-   "longitude": -77.861506,
-   "name": "141 S Fraser St, State College, PA",
-   "desc": "141 South Fraser Street, State College, Centre County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- },
- {
-   "Name": "Upper Dublin Public Library",
-   "latitude": 39.78373,
-   "longitude": -100.445882,
-   "name": "805 Loch Alsh Ave, Fort Washington",
-   "desc": "US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "country"
- },
- {
-   "Name": "Independence Seaport Museum",
-   "latitude": 39.941446,
-   "longitude": -75.142137,
-   "name": "211 S. Columbus Blvd. Philadelphia, PA 19106",
-   "desc": "South Christopher Columbus Boulevard, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "street"
- },
+    "Name": "NextFab (South Philly)",
+    "Address": "2025 Washington Ave, Philadelphia",
+    "Parsed Address": "2025 Washington Avenue, Philadelphia, PA, USA",
+    "Latitude": 39.939354,
+    "Longitude": -75.177355,
+    "Website": "https://nextfab.com/",
+    "Type": "community"
+  },
   {
-   "Name": "Innovation Studio (Drexel Engineering)",
-   "latitude": 39.955809,
-   "longitude": -75.185716,
-   "name": "3101 Market Street, Philadelphia",
-   "desc": "3101 Market Street, Philadelphia, Philadelphia County, PA, US",
-   "color": "",
-   "source": "MapQuest Open",
-   "precision": "address"
- }
+    "Name": "NextFab (North Philly)",
+    "Address": "1227 N 4th Street, Philadelphia",
+    "Parsed Address": "1227 North 4th Street, Philadelphia, PA, USA",
+    "Latitude": 39.970887,
+    "Longitude": -75.142624,
+    "Website": "https://nextfab.com/",
+    "Type": "community"
+  },
+  {
+    "Name": "MakerJawn",
+    "Address": "Locations Vary- Philadelphia Free Libraries",
+    "Parsed Address": "Castroville Branch Monterey County Free Libraries, Castroville, CA, USA",
+    "Latitude": 36.762735,
+    "Longitude": -121.754394,
+    "Website": "http://makerjawn.org",
+    "Type": "community"
+  },
+  {
+    "Name": "Hive76",
+    "Address": "1901 S. 9th Street, Philadelphia",
+    "Parsed Address": "1901 South 9th Street, Philadelphia, PA, USA",
+    "Latitude": 39.925343,
+    "Longitude": -75.159518,
+    "Website": "http://www.hive76.org",
+    "Type": "community"
+  },
+  {
+    "Name": "Philly Makerhouse",
+    "Address": "3237 Amber St Unit 4-3-B (3rd floor)",
+    "Parsed Address": "Amber Street, Vermillion, SD, USA",
+    "Latitude": 42.777354,
+    "Longitude": -96.941117,
+    "Website": "https://phillymakerhouse.com",
+    "Type": "community"
+  },
+  {
+    "Name": "Amp Tech",
+    "Address": "31 General Warren Blvd, Malvern PA, 19355",
+    "Parsed Address": "Malvern, PA, USA",
+    "Latitude": 40.033043,
+    "Longitude": -75.513375,
+    "Website": "https://amptech.org/",
+    "Type": "community"
+  },
+  {
+    "Name": "PA Maker Space",
+    "Address": "400 Franklin Ave. #103 Phoenixville, PA 19460",
+    "Parsed Address": "Franklin Avenue, Phoenixville, PA, USA",
+    "Latitude": 40.142718,
+    "Longitude": -75.52095,
+    "Website": "https://www.pamakerspace.com/",
+    "Type": "community"
+  },
+  {
+    "Name": "Metal Incorporated",
+    "Address": "2609 East Cambria St., Philadelphia",
+    "Parsed Address": "2609-13 E Cambria St, Philadelphia, PA, USA",
+    "Latitude": 39.981453,
+    "Longitude": -75.110783,
+    "Website": "http://www.metalincorporated.com",
+    "Type": "community"
+  },
+  {
+    "Name": "Tulpehocken Exchange",
+    "Address": "47 E High St, Philadelphia, PA 19144",
+    "Parsed Address": "East High Street, Philadelphia, PA, USA",
+    "Latitude": 40.043676,
+    "Longitude": -75.173299,
+    "Website": "https://www.instagram.com/tulpehocken_exchange/",
+    "Type": "community"
+  },
+  {
+    "Name": "The Village of Arts & Humanities",
+    "Address": "2544 Germantown Ave, Philadelphia",
+    "Parsed Address": "2544 Germantown Ave, Philadelphia, PA, USA",
+    "Latitude": 39.990931,
+    "Longitude": -75.148519,
+    "Website": "http://villagearts.org/",
+    "Type": "community"
+  },
+  {
+    "Name": "Second State Press",
+    "Address": "Second State Press 1400 N. American Street, B103 Philadelphia PA 19122",
+    "Parsed Address": "19122, Philadelphia, PA, USA",
+    "Latitude": 39.977746,
+    "Longitude": -75.1459,
+    "Website": "http://www.secondstatepress.org",
+    "Type": "community"
+  },
+  {
+    "Name": "PPAC - Philadelphia Photo Arts Center",
+    "Address": "1400 N. American Street #103 Philadelphia, PA 19122",
+    "Parsed Address": "1400 N American St, Philadelphia, PA, USA",
+    "Latitude": 39.973368,
+    "Longitude": -75.140489,
+    "Website": "https://www.philaphotoarts.org",
+    "Type": "community"
+  },
+  {
+    "Name": "Handcraft Workshop (Sewing)",
+    "Address": "7224 Germantown Avenue Philadelphia, PA 19119",
+    "Parsed Address": "7224 Germantown Ave, Philadelphia, PA, USA",
+    "Latitude": 40.06038,
+    "Longitude": -75.19165,
+    "Website": "http://handcraftworkshop.com",
+    "Type": "community"
+  },
+  {
+    "Name": "Independence Seaport Museum",
+    "Address": "211 S. Columbus Blvd. Philadelphia, PA 19106",
+    "Parsed Address": "Philadelphia, PA, USA",
+    "Latitude": 39.990821,
+    "Longitude": -75.168428,
+    "Website": "http://www.phillyseaport.org/Makerspace",
+    "Type": "community"
+  },
+  {
+    "Name": "Philly Maker House",
+    "Address": "3237 Amber St Unit 4-3-B (3rd Floor), Philadelphia, PA 19134, United States",
+    "Parsed Address": "Amber Street, Philadelphia, PA, USA",
+    "Latitude": 39.991036,
+    "Longitude": -75.111887,
+    "Website": "https://www.phillymakerhouse.com/",
+    "Type": "community"
+  },
+  {
+    "Name": "TinyWPA",
+    "Address": "4017 Lancaster Ave, Philadelphia, PA 19104",
+    "Parsed Address": "4017 Lancaster Ave, Philadelphia, PA, USA",
+    "Latitude": 39.963684,
+    "Longitude": -75.202762,
+    "Website": "http://www.tinywpa.org/stop-by-build/",
+    "Type": "community"
+  },
+  {
+    "Name": "Upper Dublin Public Library",
+    "Address": "805 Loch Alsh Ave, Fort Washington",
+    "Parsed Address": "Ft. Washington, Washington, DC, USA",
+    "Latitude": 38.938405,
+    "Longitude": -77.007294,
+    "Website": "https://upperdublinlibrary.org/",
+    "Type": "community"
+  },
+  {
+    "Name": "Make717",
+    "Address": "1100 E. Orange Street, Lancaster",
+    "Parsed Address": "1100 East Orange Street, Lancaster, PA, USA",
+    "Latitude": 40.041696,
+    "Longitude": -76.279951,
+    "Website": "https://www.make717.org/",
+    "Type": "community"
+  },
+  {
+    "Name": "MakeSpace",
+    "Address": "141 S Fraser St, State College",
+    "Parsed Address": "141 South Fraser Street, State College, PA, USA",
+    "Latitude": 40.79291,
+    "Longitude": -77.861506,
+    "Website": "https://themakespace.com/",
+    "Type": "community"
+  },
+  {
+    "Name": "Walnut St. Labs",
+    "Address": "1 N. Church St., 3rd Floor, West Chester, PA 19380",
+    "Parsed Address": "1 North Church Street, West Chester, PA, USA",
+    "Latitude": 39.959246,
+    "Longitude": -75.605703,
+    "Website": "https://walnutstlabs.com/",
+    "Type": "community"
+  },
+  {
+    "Name": "Pubforge",
+    "Address": "24 E King St #42, Lancaster, PA 17602",
+    "Parsed Address": "24 East King Street, Lancaster, PA, USA",
+    "Latitude": 40.038011,
+    "Longitude": -76.304553,
+    "Website": "https://pubforge.work/",
+    "Type": "community"
+  },
+  {
+    "Name": "Haddonfield Library",
+    "Address": "60 Haddon Avenue, Haddonfield, NJ 08033",
+    "Parsed Address": "Haddonfield, NJ, USA",
+    "Latitude": 39.895083,
+    "Longitude": -75.03587,
+    "Website": "https://www.haddonfieldlibrary.org/makerspace",
+    "Type": "community"
+  },
+  {
+    "Name": "Abbington Art Center Innovation Center",
+    "Address": "515 Meetinghouse Rd, Jenkintown, PA 19046",
+    "Parsed Address": "Jenkintown, PA, USA",
+    "Latitude": 40.096146,
+    "Longitude": -75.130562,
+    "Website": "https://abingtonartcenter.org/innovation-center/",
+    "Type": "community"
+  },
+  {
+    "Name": "MakerStudio@GCLS (Mullica Hill)",
+    "Address": "389 Wolfert Station Rd, Mullica Hill, NJ 08062",
+    "Parsed Address": "Mullica Hill, NJ, USA",
+    "Latitude": 39.724648,
+    "Longitude": -75.219457,
+    "Website": "https://www.gcls.org/makerstudio",
+    "Type": "community"
+  },
+  {
+    "Name": "CreativityStudio@GCLS (Glassboro)",
+    "Address": "2 Center St, Glassboro, NJ 08028",
+    "Parsed Address": "Center Street, Glassboro, NJ, USA",
+    "Latitude": 39.70301,
+    "Longitude": -75.110805,
+    "Website": "https://www.gcls.org/creativitystudio",
+    "Type": "community"
+  },
+  {
+    "Name": "DesignStudio@GCLS",
+    "Address": "389 Wolfert Station Rd, Mullica Hill, NJ 08062",
+    "Parsed Address": "Mullica Hill, NJ, USA",
+    "Latitude": 39.724648,
+    "Longitude": -75.219457,
+    "Website": "https://www.gcls.org/designstudio",
+    "Type": "community"
+  },
+  {
+    "Name": "GCLS InnovationStudio at RCGC",
+    "Address": "1400 Tanyard Rd, Sewell, NJ 08080",
+    "Parsed Address": "1400 Tanyard Road, Deptford, NJ, USA",
+    "Latitude": 39.781656,
+    "Longitude": -75.12823,
+    "Website": "https://www.gcls.org/make/innovationstudio",
+    "Type": "community"
+  },
+  {
+    "Name": "Collingswood Public Library",
+    "Address": "771 Haddon Ave, Collingswood, NJ 08108",
+    "Parsed Address": "Collingswood, NJ, USA",
+    "Latitude": 39.917442,
+    "Longitude": -75.0755,
+    "Website": "https://www.collingswoodlib.org/makerspace",
+    "Type": "community"
+  },
+  {
+    "Name": "The Factory Workers",
+    "Address": "13 Fern Ave, Collingswood, NJ 08108",
+    "Parsed Address": "Collingswood, NJ, USA",
+    "Latitude": 39.917442,
+    "Longitude": -75.0755,
+    "Website": "http://thefactoryworkers.com/",
+    "Type": "community"
+  },
+  {
+    "Name": "MakerDads",
+    "Address": "8203 Forest Ave, Elkins Park, PA 19027",
+    "Parsed Address": "Parkville, PA, USA",
+    "Latitude": 39.78484,
+    "Longitude": -76.96678,
+    "Website": "https://www.maker-dads.com/",
+    "Type": "community"
+  },
+  {
+    "Name": "Protohaven",
+    "Address": "214 N Trenton Ave, Pittsburgh, PA 15221",
+    "Parsed Address": "214 N Trenton Ave, Pittsburgh, PA, USA",
+    "Latitude": 40.447355,
+    "Longitude": -79.890073,
+    "Website": "https://www.protohaven.org/",
+    "Type": "community"
+  },
+  {
+    "Name": "Hackpgh",
+    "Address": "1936 Fifth Ave, Pittsburgh, PA 15219",
+    "Parsed Address": "Fifth Avenue, Pittsburgh, PA, USA",
+    "Latitude": 40.438372,
+    "Longitude": -79.980857,
+    "Website": "https://hackpgh.org/",
+    "Type": "community"
+  },
+  {
+    "Name": "AddLab (Penn)",
+    "Address": "107 Towne Bldg, Philadelphia",
+    "Parsed Address": "Philadelphia, PA, USA",
+    "Latitude": 39.990821,
+    "Longitude": -75.168428,
+    "Website": "https://meamlabs.seas.upenn.edu/addlab/",
+    "Type": "university"
+  },
+  {
+    "Name": "Perch Design and Fabrication Facility",
+    "Address": "3401 Grays Ferry Ave, Philadelphia, PA 19146",
+    "Parsed Address": "3401 Grays Ferry Ave, Philadelphia, PA, USA",
+    "Latitude": 39.941467,
+    "Longitude": -75.2,
+    "Website": "https://www.grasp.upenn.edu/perch",
+    "Type": "university"
+  },
+  {
+    "Name": "3d printing at BioMedical Library (Penn)",
+    "Address": "3610 Hamilton Walk, Philadelphia, PA 19104",
+    "Parsed Address": "Hamilton Walk, Philadelphia, PA, USA",
+    "Latitude": 39.949924,
+    "Longitude": -75.197211,
+    "Website": "https://guides.library.upenn.edu/3d",
+    "Type": "university"
+  },
+  {
+    "Name": "3d printing at Education Commons (Penn)",
+    "Address": "Smith Walk, Philadelphia, PA 19104",
+    "Parsed Address": "Smith Walk, Philadelphia, PA, USA",
+    "Latitude": 39.951531,
+    "Longitude": -75.191416,
+    "Website": "https://guides.library.upenn.edu/3deducom",
+    "Type": "university"
+  },
+  {
+    "Name": "Design School - Fabrication Lab (Penn)",
+    "Address": "210 S 34th St, Philadelphia, PA 19104",
+    "Parsed Address": "210 South 34th Street, Philadelphia, PA, USA",
+    "Latitude": 39.95225,
+    "Longitude": -75.192667,
+    "Website": "https://www.design.upenn.edu/fab-lab/about",
+    "Type": "university"
+  },
+  {
+    "Name": "Penn Design Studio",
+    "Address": "3401 Grays Ferry Ave, Philadelphia, PA 19146",
+    "Parsed Address": "3401 Grays Ferry Ave, Philadelphia, PA, USA",
+    "Latitude": 39.941467,
+    "Longitude": -75.2,
+    "Website": "https://www.pennovation.upenn.edu/the-community/innovators/penn-design-studio",
+    "Type": "university"
+  },
+  {
+    "Name": "ExCITe Center (Drexel)",
+    "Address": "3401 Market Street, Suite 100, Philadelphia, PA 19104",
+    "Parsed Address": "3401 Market Street, Philadelphia, PA, USA",
+    "Latitude": 39.95638,
+    "Longitude": -75.191891,
+    "Website": "http://www.drexel.edu/excite",
+    "Type": "university"
+  },
+  {
+    "Name": "URBN Center, Hybrid Making Lab (Drexel)",
+    "Address": "3501 Market Street, Philadelphia, PA 19104",
+    "Parsed Address": "3501 Market St, Philadelphia, PA, USA",
+    "Latitude": 39.956432,
+    "Longitude": -75.192709,
+    "Website": "https://drexel.edu/westphal/about/overview/making_spaces/HybridMakingLab/",
+    "Type": "university"
+  },
+  {
+    "Name": "Innovation Studio (Drexel Engineering)",
+    "Address": "3101 Market Street, Philadelphia",
+    "Parsed Address": "3101 Market Street, Philadelphia, PA, USA",
+    "Latitude": 39.955853,
+    "Longitude": -75.185561,
+    "Website": "https://drexel.edu/engineering/resources/for-students/innovation-studio/",
+    "Type": "university"
+  },
+  {
+    "Name": "Digital Scholarship Center (Temple)",
+    "Address": "1210 Polett Walk, Philadelphia, PA 19122",
+    "Parsed Address": "1210 Polett Walk, Philadelphia, PA, USA",
+    "Latitude": 39.980939,
+    "Longitude": -75.154581,
+    "Website": "https://sites.temple.edu/tudsc/tag/makerspace/",
+    "Type": "university"
+  },
+  {
+    "Name": "Digital Fabrication Center - Tyler School of Art (Temple)",
+    "Address": "2001 North 13th Street, Philadelphia, PA 19122",
+    "Parsed Address": "2001-59 N 13th St, Philadelphia, PA, USA",
+    "Latitude": 39.983547,
+    "Longitude": -75.153792,
+    "Website": "https://tyler.temple.edu/digital-fabrication-studios",
+    "Type": "university"
+  },
+  {
+    "Name": "No name yet (UArts)",
+    "Address": "320 South Broad Street, Philadelphia, PA",
+    "Parsed Address": "320 S Broad St, Philadelphia, PA, USA",
+    "Latitude": 39.945975,
+    "Longitude": -75.165556,
+    "Website": "https://www.uarts.edu/node/41656",
+    "Type": "university"
+  },
+  {
+    "Name": "Innovation Factory (La Salle)",
+    "Address": "1900 W Olney Ave, Philadelphia, PA 19141",
+    "Parsed Address": "West Olney Avenue, Philadelphia, PA, USA",
+    "Latitude": 40.037468,
+    "Longitude": -75.137656,
+    "Website": "http://library.lasalle.edu",
+    "Type": "university"
+  },
+  {
+    "Name": "Health & Design Lab \"The Vault\" (Jefferson)",
+    "Address": "4201 Henry Avenue, Philadelphia, PA 19144",
+    "Parsed Address": "4201 Henry Avenue, Philadelphia, PA, USA",
+    "Latitude": 40.022454,
+    "Longitude": -75.193692,
+    "Website": "http://design-health.com/hdl/",
+    "Type": "university"
+  },
+  {
+    "Name": "MakerSpace (Swarthmore)",
+    "Address": "Whittier Pl, Swarthmore, PA 19081",
+    "Parsed Address": "Whittier Place, Swarthmore, PA, USA",
+    "Latitude": 39.908334,
+    "Longitude": -75.353395,
+    "Website": "https://www.swarthmore.edu/makerspace",
+    "Type": "university"
+  },
+  {
+    "Name": "Maker Arts Space (Haverford)",
+    "Address": "370 Lancaster Avenue, Haverford, PA 19041",
+    "Parsed Address": "Haverford, PA, USA",
+    "Latitude": 39.985637,
+    "Longitude": -75.31342,
+    "Website": "https://www.haverford.edu/vcam/maker-arts-space",
+    "Type": "university"
+  },
+  {
+    "Name": "Abington (Penn State)",
+    "Address": "1600 Woodland Road, Abington, Pennsylvania 19001",
+    "Parsed Address": "Woodland Road, Abington, PA, USA",
+    "Latitude": 40.133157,
+    "Longitude": -75.139638,
+    "Website": "https://abington.psu.edu/story/8906/2016/06/10/abington-debuts-maker-spaceinnovation-hub",
+    "Type": "university"
+  },
+  {
+    "Name": "The Dr. Welch Workshop at Penn College",
+    "Address": "One College Avenue, Williamsport, PA 17701",
+    "Parsed Address": "College Avenue, Williamsport, PA, USA",
+    "Latitude": 41.234677,
+    "Longitude": -77.027432,
+    "Website": "https://pct.libguides.com/Makerspace",
+    "Type": "university"
+  },
+  {
+    "Name": "TECH Freire",
+    "Address": "2221 North Broad Street, Philadelphia, PA 19132",
+    "Parsed Address": "2221-25 N Broad St, Philadelphia, PA, USA",
+    "Latitude": 39.986901,
+    "Longitude": -75.155597,
+    "Website": "http://techfreire.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "The Workshop School",
+    "Address": "221 Hanson St, Philadelphia",
+    "Parsed Address": "221-41 Hanson St, Philadelphia, PA, USA",
+    "Latitude": 39.955306,
+    "Longitude": -75.218553,
+    "Website": "http://www.workshopschool.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "Science Leadership Academy",
+    "Address": "55 N 22nd St, Philadelphia",
+    "Parsed Address": "55 North 22nd Street, Philadelphia, PA, USA",
+    "Latitude": 39.955792,
+    "Longitude": -75.176003,
+    "Website": "https://scienceleadership.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "Roxborough High School (Roxcite STEAM Lab)",
+    "Address": "6498 Ridge Ave, Philadelphia",
+    "Parsed Address": "Ridge Avenue, Philadelphia, PA, USA",
+    "Latitude": 39.96086,
+    "Longitude": -75.156768,
+    "Website": "http://webgui.phila.k12.pa.us/schools/r/roxborough",
+    "Type": "school"
+  },
+  {
+    "Name": "Springside Chestnut Hill (SCH) Academy",
+    "Address": "500 West Willow Grove Avenue, Philadelphia",
+    "Parsed Address": "West Willow Grove Avenue, Philadelphia, PA, USA",
+    "Latitude": 40.07036,
+    "Longitude": -75.201142,
+    "Website": "https://www.sch.org",
+    "Type": "school"
+  },
+  {
+    "Name": "String Theory School",
+    "Address": "1600 Vine Street, Philadelphia",
+    "Parsed Address": "1600 Vine St, Philadelphia, PA, USA",
+    "Latitude": 39.957924,
+    "Longitude": -75.166509,
+    "Website": "http://www.stringtheoryschools.org/vine-st-campus/vine-street-school-landing-page/",
+    "Type": "school"
+  },
+  {
+    "Name": "Academy at Palumbo High School",
+    "Address": "1100 Catherine Street, Philadelphia, PA 19147",
+    "Parsed Address": "Philadelphia, PA, USA",
+    "Latitude": 39.990821,
+    "Longitude": -75.168428,
+    "Website": "https://palumbo.philasd.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "Chester A. Arthur Elementary School",
+    "Address": "2000 Catharine St, Philadelphia",
+    "Parsed Address": "Catharine Street, Philadelphia, PA, USA",
+    "Latitude": 39.936955,
+    "Longitude": -75.142769,
+    "Website": "https://arthur.philasd.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "MaST Community Charter School",
+    "Address": "1800 E. Byberry Rd., Philadelphia",
+    "Parsed Address": "Philadelphia, PA, USA",
+    "Latitude": 39.990821,
+    "Longitude": -75.168428,
+    "Website": "https://mastccs.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "MAST II",
+    "Address": "6238 Rising Sun Ave, Philadelphia, PA 19111",
+    "Parsed Address": "Rising Sun Avenue, Philadelphia, PA, USA",
+    "Latitude": 40.06823,
+    "Longitude": -75.077559,
+    "Website": "http://mast2.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "TechCORE2 (STEM Coding + robotics)",
+    "Address": "7478 Rhoads Street, Suite A, Philadelphia, PA 19151",
+    "Parsed Address": "7478 Rhoads St, Philadelphia, PA, USA",
+    "Latitude": 39.97353,
+    "Longitude": -75.26278,
+    "Website": "http://techcore2.org/contact-us/",
+    "Type": "school"
+  },
+  {
+    "Name": "Baldi Middle School",
+    "Address": "8801 Verree Road, Philadelphia, PA 19115",
+    "Parsed Address": "Verree Rd, Philadelphia, PA, USA",
+    "Latitude": 40.107995,
+    "Longitude": -75.026679,
+    "Website": "https://baldi.philasd.org/about-us/",
+    "Type": "school"
+  },
+  {
+    "Name": "Horatio B. Hackett School",
+    "Address": "2161 East York St. Philadelphia, PA 19125",
+    "Parsed Address": "East York Street, Philadelphia, PA, USA",
+    "Latitude": 39.980562,
+    "Longitude": -75.12686,
+    "Website": "http://friendsofhackett.weebly.com/makerspace.html",
+    "Type": "school"
+  },
+  {
+    "Name": "Charter High School for Architecture + Design",
+    "Address": "105 S. 7th Street, Philadelphia, PA 19106",
+    "Parsed Address": "South 7th Street, Philadelphia, PA, USA",
+    "Latitude": 39.930818,
+    "Longitude": -75.156423,
+    "Website": "http://www.chadphila.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "AIM Academy",
+    "Address": "1200 River Road, Conshohocken",
+    "Parsed Address": "Conshohocken, PA, USA",
+    "Latitude": 40.076828,
+    "Longitude": -75.304402,
+    "Website": "https://www.aimpa.org/",
+    "Type": "school"
+  },
+  {
+    "Name": "Upper Dublin High School",
+    "Address": "800 Loch Alsh Ave, Fort Washington",
+    "Parsed Address": "Ft. Washington, Washington, DC, USA",
+    "Latitude": 38.938405,
+    "Longitude": -77.007294,
+    "Website": "https://www.udsd.org/schools/udhs/",
+    "Type": "school"
+  },
+  {
+    "Name": "Vincent Elementary School",
+    "Address": "2750 Conestoga Road, Chester Springs",
+    "Parsed Address": "Stuart, NT, Australia",
+    "Latitude": -23.672475,
+    "Longitude": 133.886851,
+    "Website": "https://www.ojrsd.com/Domain/9",
+    "Type": "school"
+  },
+  {
+    "Name": "The Baldwin School",
+    "Address": "701 Montgomery Ave., Bryn Mawr",
+    "Parsed Address": "Montgomery Avenue, Yonkers, NY, USA",
+    "Latitude": 40.947188,
+    "Longitude": -73.864512,
+    "Website": "https://www.baldwinschool.org/page.cfm?p=1814",
+    "Type": "school"
+  },
+  {
+    "Name": "Shipley School",
+    "Address": "814 Yarrow, Bryn Mawr",
+    "Parsed Address": "Yarrow Street, Bryn Mawr, PA, USA",
+    "Latitude": 40.024662,
+    "Longitude": -75.314582,
+    "Website": "https://www.shipleyschool.org/page",
+    "Type": "school"
+  },
+  {
+    "Name": "City Avenue Makerspace (Friends Central School)",
+    "Address": "1011 City Avenue, Wynnewood",
+    "Parsed Address": "City Avenue, Lancaster County, SC, USA",
+    "Latitude": 34.713417,
+    "Longitude": -80.772748,
+    "Website": "http://www.friendscentral.org/academics/signature-programs/makerspaces",
+    "Type": "school"
+  },
+  {
+    "Name": "Ulmer Family Light Lab (Friends Central School)",
+    "Address": "228 Old Gulph Road, Wynnewood",
+    "Parsed Address": "Wynnewood, OK, USA",
+    "Latitude": 34.644893,
+    "Longitude": -97.163995,
+    "Website": "http://www.friendscentral.org/academics/signature-programs/makerspaces",
+    "Type": "school"
+  },
+  {
+    "Name": "John Moffet Elementary School",
+    "Address": "127 W. Oxford St. Philadelphia, 19122",
+    "Parsed Address": "127-55 W Oxford St, Philadelphia, PA, USA",
+    "Latitude": 39.975064,
+    "Longitude": -75.135962,
+    "Website": "https://sites.google.com/philasd.org/moffetsmakersspace/home",
+    "Type": "school"
+  },
+  {
+    "Name": "Stern at Perelman Jewish Day School",
+    "Address": "49 Haverford Ave, Wynnewood",
+    "Parsed Address": "Wynnewood, OK, USA",
+    "Latitude": 34.644893,
+    "Longitude": -97.163995,
+    "Website": "www.pjds.org",
+    "Type": "school"
+  },
+  {
+    "Name": "Forman at Perelman Jewish Day School",
+    "Address": "7601 Old York Road, Melrose Park",
+    "Parsed Address": "Melrose Park, IL, USA",
+    "Latitude": 41.902807,
+    "Longitude": -87.856782,
+    "Website": "www.pjds.org",
+    "Type": "school"
+  },
+  {
+    "Name": "Shipley's Makerspace",
+    "Address": "814 Yarrow Street, Bryn Mawr",
+    "Parsed Address": "Yarrow Street, Bryn Mawr, PA, USA",
+    "Latitude": 40.024662,
+    "Longitude": -75.314582,
+    "Website": "https://www.shipleyschool.org/page/news-detail---the-shipley-magazine?pk=1028523",
+    "Type": "school"
+  },
+  {
+    "Name": "Episcopal Academy",
+    "Address": "1785 Bishop White Drive, Newtown Square, PA 19073 \u0003",
+    "Parsed Address": "Newtown, PA, USA",
+    "Latitude": 40.249447,
+    "Longitude": -74.950994,
+    "Website": "https://www.episcopalacademy.org/academics/technology",
+    "Type": "school"
+  },
+  {
+    "Name": "Notre Dame De Loures School",
+    "Address": "990 Fairview Rd, Swarthmore, PA 19081",
+    "Parsed Address": "Swarthmore, PA, USA",
+    "Latitude": 39.902941,
+    "Longitude": -75.348513,
+    "Website": "https://notredamedelourdes.net/stem-makerspace",
+    "Type": "school"
+  },
+  {
+    "Name": "Germantown Academy",
+    "Address": "340 Morris Road, Fort Washington, PA 19034-0287",
+    "Parsed Address": "Fort Washington, PA, USA",
+    "Latitude": 40.140076,
+    "Longitude": -75.19067,
+    "Website": "https://www.germantownacademy.net/",
+    "Type": "school"
+  },
+  {
+    "Name": "Wissahickon Middle School MakerSpace",
+    "Address": "500 Houston Rd, Lower Gwynedd Township, PA 19002",
+    "Parsed Address": "Lower Gwynedd, PA, USA",
+    "Latitude": 40.188147,
+    "Longitude": -75.237317,
+    "Website": "https://twitter.com/wmsinnovates",
+    "Type": "school"
+  },
+  {
+    "Name": "Plymoth Whitemarsh High School",
+    "Address": "201 East Germantown Pike, Plymouth Meeting, PA 19462",
+    "Parsed Address": "Plymouth Meeting, PA, USA",
+    "Latitude": 40.111391,
+    "Longitude": -75.283205,
+    "Website": "https://www.colonialsd.org/our-schools/plymouth-whitemarsh-high/library/makerspace",
+    "Type": "school"
+  },
+  {
+    "Name": "Makerspace / Breakerspace at Pottsgrove Highschool",
+    "Address": "1345 Kauffman Rd, Pottstown, PA 19464",
+    "Parsed Address": "Pottstown, PA, USA",
+    "Latitude": 40.250368,
+    "Longitude": -75.644434,
+    "Website": "https://www.pgsd.org/Page/7557",
+    "Type": "school"
+  },
+  {
+    "Name": "Ardmore Avenue Elementary",
+    "Address": "161 Ardmore Ave, Lansdowne, PA 19050",
+    "Parsed Address": "Ardmore Avenue, Lansdowne, PA, USA",
+    "Latitude": 39.943146,
+    "Longitude": -75.281573,
+    "Website": "https://www.williampennsd.org/Ardmore",
+    "Type": "school"
+  }
 ];
     
   </script>
@@ -493,10 +810,11 @@
 
 var i;
 for (i = 0; i < pmslist.length; i++) { 
-  var marker = L.marker([pmslist[i].latitude, pmslist[i].longitude]).addTo(mymap);
-  marker.bindPopup(pmslist[i].Name).openPopup();
-  marker.id = pmslist[i].longitude.toString();
-  console.log("Id of " + pmslist[i].Name + " is " + pmslist[i].longitude.toString() );
+  var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude]).addTo(mymap);
+  var link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Name + '</a>';
+  marker.bindPopup(link);
+  // marker.id = pmslist[i].longitude.toString();
+  // console.log(marker.id);
 
 }
 var myTable = document.getElementById("mytable");
@@ -510,13 +828,83 @@ for (z = 0; z < pmslist.length; z++) {
 
 
   var cell2 = row.insertCell(1);
-  cell2.innerHTML = pmslist[z].name;
+  cell2.innerHTML = pmslist[z].Address;
+  link = '<a href="' + pmslist[z].Website + '">' + pmslist[z].Name + '</a>';
+  var cell3 = row.insertCell(2);
+  cell3.innerHTML = link;
+
 }
 
-$.getJSON("phillymakerspaces.json", function(json) {
-    console.log(json); // this will show the info it in firebug console
-});
-    
+// var row = myTable.insertRow(0);
+// var cell1 = row.insertCell(0);
+// var cell2 = row.insertCell(1);
+// cell1.innerHTML = "Name";
+// cell2.innerHTML = "Address";
+
+// var xhttp = new XMLHttpRequest();
+// var url = "draft1.csv";
+// xhttp.onreadystatechange = function() {
+//     if (this.readyState == 4 && this.status == 200) {
+//        // Typical action to be performed when the document is ready:
+//        // document.getElementById("demo").innerHTML = xhttp.responseText;
+//        console.log(xhttp.responseText);
+//     }
+// };
+// xhttp.open("GET", url, true);
+// xhttp.send();
+
+
+// $.getJSON("addresses.json", function(json) {
+//     console.log(json); // this will show the info it in firebug console
+// });
+
+
+
+// --------- papa please ----------
+
+// var newData;
+// function papaplEAse() {
+
+// Papa.parse("draft1.csv",{
+//   download: true,
+//   delimiter: "",  // auto-detect
+//   newline: "",  // auto-detect
+//   quoteChar: '"',
+//   escapeChar: '"',
+//   header: true,
+//   complete: function(results, file){
+    // console.log("Finished: ", results);
+    // return results.data;
+  //   newData = results.data;
+  //   }
+  // });
+
+  // newData = results.data;
+// }
+// papaplEAse();
+
+// var newData = papaplEAse();
+// console.log(newData);
+
   </script>
+  
+
+<!-- <script>
+  function handleFileSelect(evt) {
+    var file = evt.target.files[0];
+
+    Papa.parse(file, {
+      header: true,
+      dynamicTyping: true,
+      complete: function(results) {
+        data = results;
+      }
+    });
+  }
+ 
+  $(document).ready(function(){
+    $("#csv-file").change(handleFileSelect);
+  });
+</script> -->
   </body>
 </html>
