@@ -11,7 +11,7 @@
    	#mapid { 
    		height: 400px;
    		width: 600px;
-      margin: 50px auto;
+      margin: 50px auto 0;
    	}
     h1 {
       text-align: center;
@@ -31,11 +31,38 @@
     tr:nth-child(even) {
       background-color: #f2f2f2;
     }
+    figure {
+      /*max-height:50px;*/
+      padding-top: 5px;
+      display: inline-block;
+      margin: 10px;
+    }
+    figure img {
+      max-height: 25px;
+      width: auto;
+    }
+    .key h2 {
+      display: inline;
+    }
+    .key {
+      max-width: 600px;
+      margin: auto;
+      align-items: right;
+      display: flex;
+      justify-content: flex-end;
+    }
    </style>
   </head>
   <body>
   	<h1>Philly Maker Spaces Test Map</h1>
   	<div id="mapid"></div>
+    <div class="key">
+      <h2>Key:</h2>
+      <figure><img src="university1.png" alt="university"><caption>University</caption></figure>
+      <figure><img src="school1.png" alt="school"><caption>School</caption></figure>
+      <figure><img src="community1.png" alt="community"><caption>Community</caption></figure>
+      
+    </div>
   <div class="tablediv">
     <table id="mytable">
       <tr>
@@ -808,9 +835,59 @@
 }).addTo(mymap);
 
 
+var communityIcon = L.icon({
+    iconUrl: 'community1.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png',
+
+    iconSize:     [38, 40], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [10, 36], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [9, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+var universityIcon = L.icon({
+    iconUrl: 'university1.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png',
+
+    iconSize:     [38, 40], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [10, 36], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [9, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+var schoolIcon = L.icon({
+    iconUrl: 'school1.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png',
+
+    iconSize:     [38, 40], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [10, 36], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [9, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+
+
+
+
+
+
+
+
 var i;
 for (i = 0; i < pmslist.length; i++) { 
-  var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude]).addTo(mymap);
+  if (pmslist[i].Type == "school") {
+    var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: schoolIcon}).addTo(mymap);
+  }
+  else if (pmslist[i].Type == "university") {
+    var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: universityIcon}).addTo(mymap);
+  }
+  else {
+    var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: communityIcon}).addTo(mymap);
+  }
+  
   var link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Name + '</a>';
   marker.bindPopup(link);
   // marker.id = pmslist[i].longitude.toString();
