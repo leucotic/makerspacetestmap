@@ -144,7 +144,7 @@ var schoolIcon = L.icon({
 
 // --------- Setting up Data ----------
 
-var pmslist;
+var pmslist; // holds the JSON data
 
 function getTheData(a) {
   pmslist = a;
@@ -164,8 +164,6 @@ for (i = 0; i < pmslist.length; i++) {
   
   var link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Name + '</a>';
   marker.bindPopup(link);
-  // marker.id = pmslist[i].longitude.toString();
-  // console.log(marker.id);
 }
 
 
@@ -186,8 +184,8 @@ for (z = 0; z < pmslist.length; z++) {
   var cell2 = row.insertCell(1);
   cell2.innerHTML = pmslist[z].Address;
   } 
-}
-// --------- (end getTheData function) ----------
+} // closes getTheData function
+
 
 // --------- Papa Please (Parsing CSV into JSON) ----------
 
@@ -206,7 +204,11 @@ Papa.parse("data.csv", {
   });
 }
 
-papaPlease(getTheData);
+papaPlease(getTheData); // runs everything
+
+// next steps: change marker assignment to switch statement?
+// combine placing markers and building table into one for loop
+// link popup markers to table with ids somehow?
 
 
   </script>
