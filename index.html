@@ -7,8 +7,6 @@
    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
    crossorigin=""/>
    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css?family=Prosto+One" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
    <style>
    	#mapid { 
@@ -56,19 +54,14 @@
       justify-content: flex-end;
     }
     body {
-      /*background-color: lavender;*/
       font-family: 'Roboto', sans-serif;
       font-weight: 300;
     }
     h1, h2, th {
-      /*font-family: 'Bevan', cursive;*/
-      /*font-family: 'Prosto One', cursive;*/
-      /*font-family: 'Squada One', cursive;*/
       font-family: 'Inconsolata', monospace;
     }
     h1 {
       font-size: 3em;
-      /*color: white;*/
     }
    </style>
   </head>
@@ -94,12 +87,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://unpkg.com/papaparse@4.6.3/papaparse.min.js"></script>
-  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
    crossorigin=""></script>
-   <script type="text/javascript" src="phillymakerspaces.json"></script>
-
-
   <script>
 
 
@@ -152,7 +142,7 @@ var schoolIcon = L.icon({
 
 
 
-// --------- Papa Please (Parsing CSV into JSON) ----------
+// --------- Setting up Data ----------
 
 var pmslist;
 
@@ -195,9 +185,11 @@ for (z = 0; z < pmslist.length; z++) {
 
   var cell2 = row.insertCell(1);
   cell2.innerHTML = pmslist[z].Address;
+  } 
+}
+// --------- (end getTheData function) ----------
 
-}
-}
+// --------- Papa Please (Parsing CSV into JSON) ----------
 
 function papaPlease(callback) {
 
@@ -218,52 +210,5 @@ papaPlease(getTheData);
 
 
   </script>
-
-
-  <!-- Failed import attempts --> 
-
-<!-- <script>
-  function handleFileSelect(evt) {
-    var file = evt.target.files[0];
-
-    Papa.parse(file, {
-      header: true,
-      dynamicTyping: true,
-      complete: function(results) {
-        data = results;
-      }
-    });
-  }
- 
-  $(document).ready(function(){
-    $("#csv-file").change(handleFileSelect);
-  });
-
-  // var row = myTable.insertRow(0);
-// var cell1 = row.insertCell(0);
-// var cell2 = row.insertCell(1);
-// cell1.innerHTML = "Name";
-// cell2.innerHTML = "Address";
-
-// var xhttp = new XMLHttpRequest();
-// var url = "draft1.csv";
-// xhttp.onreadystatechange = function() {
-//     if (this.readyState == 4 && this.status == 200) {
-//        // Typical action to be performed when the document is ready:
-//        // document.getElementById("demo").innerHTML = xhttp.responseText;
-//        console.log(xhttp.responseText);
-//     }
-// };
-// xhttp.open("GET", url, true);
-// xhttp.send();
-
-
-// $.getJSON("addresses.json", function(json) {
-//     console.log(json); // this will show the info it in firebug console
-// });
-
-
-
-</script> -->
   </body>
 </html>
