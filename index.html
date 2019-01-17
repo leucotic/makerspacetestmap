@@ -8,11 +8,14 @@
    crossorigin=""/>
    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/css/L.Control.OpenCageData.Search.min.css" />
+
    <style>
    	#mapid { 
    		height: 400px;
    		width: 600px;
       margin: 0px auto 0;
+      
    	}
     h1 {
       text-align: center;
@@ -66,7 +69,7 @@
    </style>
   </head>
   <body>
-  	<h1>Philly Makerspaces</h1>
+  	<h1 id="top">Philly Makerspaces</h1>
   	<div id="mapid"></div>
     <div class="key">
       <h2>Key:</h2>
@@ -79,7 +82,8 @@
     <table id="mytable">
       <tr>
         <th>Name</th>
-    <th>Address</th>
+        <th>Address</th>
+        <th>Website</th>
       </tr>
       
     </table>
@@ -90,19 +94,30 @@
 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
    crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/js/L.Control.OpenCageSearch.min.js"></script>
   <script>
 
 
 // -------- Make the map -------
   	var mymap = L.map('mapid').setView([39.952583,-75.165222], 12);
 
-
-  	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoibGV1Y290aWMiLCJhIjoiY2pxcG81YWF0MDNtcjQzbnFkenFhYmNnNiJ9.zK4ptFX_rj3ux9Nm-bPXdg'
 }).addTo(mymap);
+
+// ------- openCageSearch Geocoding?? ------
+
+// var options = {
+//     key: '5ccf5298ef374a0f9f896afcb5293a10',
+//     limit: 5,
+//     proximity: '39.952583,-75.165222'
+// };
+// var control = L.Control.openCageSearch(options).addTo(mymap);
+
+
 
 // ------- Set up custom map icons -----
 
@@ -149,42 +164,99 @@ var pmslist; // holds the JSON data
 function getTheData(a) {
   pmslist = a;
 
-  // ------------ Placing Markers on the Map ----------
+// ------------ Building Webpage from Data ----------
+
 var i;
+var mtype;
+var myTable = document.getElementById("mytable");
+var markers = {};
+
 for (i = 0; i < pmslist.length; i++) { 
+
+// ------ Creating Unique Marker ID ----------
+
+  // var markerid = pmslist[i].Latitude + Math.floor(Math.random() * 10);
+  // markerid = markerid.toString();
+  // markerid = markerid.replace(".", "");
+  var markerid = pmslist[i].Name.replace(/[^a-zA-Z ]/g, "");
+  markerid = markerid.replace(/ /g,"_");
+  // console.log(markerid);
+
+  pmslist[i].Markerid = markerid;
+
+  // console.log(pmslist[i].Markerid);
+
+// ------------ Placing Markers on the Map ----------
+
   if (pmslist[i].Type == "school") {
-    var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: schoolIcon}).addTo(mymap);
+    mtype = schoolIcon;
   }
   else if (pmslist[i].Type == "university") {
-    var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: universityIcon}).addTo(mymap);
+        mtype = universityIcon;
   }
   else {
-    var marker = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: communityIcon}).addTo(mymap);
+    mtype = communityIcon;
   }
-  
-  var link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Name + '</a>';
-  marker.bindPopup(link);
-}
+  markers[markerid] = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: mtype});
+  markers[markerid]._leaflet_id = markerid;
+  mymap.addLayer(markers[markerid]);
+  // markers.addTo(mymap);
 
+
+  var link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Name + '</a>';
+  markers[markerid].bindPopup(link);
 
 
 
 // ------ Building the Directory Table -------
-
-var myTable = document.getElementById("mytable");
-
-var z;
-for (z = 0; z < pmslist.length; z++) { 
   var row = myTable.insertRow(-1);
 
   var cell1 = row.insertCell(0);
-  link = '<a href="' + pmslist[z].Website + '">' + pmslist[z].Name + '</a>';
-  cell1.innerHTML = link;
+  var maplink = '<a href="#' + pmslist[i].Markerid + '" ' + 'id="' + pmslist[i].Markerid + 'z" class="cellx">' + pmslist[i].Name + '</a>';
+  cell1.innerHTML = maplink;
+
+  // cell1.onclick = function(){
+  //   mymap._layers["MakerJawn"].fire('click');
+  // };
 
   var cell2 = row.insertCell(1);
-  cell2.innerHTML = pmslist[z].Address;
-  } 
+  cell2.innerHTML = pmslist[i].Address;
+
+  var cell3 = row.insertCell(2);
+  link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Website + '</a>';
+  cell3.innerHTML = link;
+
+  } // closes forloop
+
+  // --------- Making location name open up popup on map ----------
+
+var x = document.getElementsByClassName("cellx");
+var i;
+for (i = 0; i < x.length; i++) {
+  // x[i].id = x[i].id;
+  var mID = x[i].id.slice(0, -1);
+  // console.log(mID);
+  function clicky(mID, i) {
+    x[i].onclick = function(){
+      mymap._layers[mID].fire('click');
+      // console.log(i);
+
+      mymap.setView([pmslist[i].Latitude, pmslist[i].Longitude], 15);
+      window.scrollTo(0, 0);
+      console.log(pmslist[i]);
+    };
+  }
+  clicky(mID, i);
+};
+
+
+
+// console.log(x);
+
+  // console.log(markerid);
 } // closes getTheData function
+
+
 
 
 // --------- Papa Please (Parsing CSV into JSON) ----------
@@ -205,12 +277,7 @@ Papa.parse("data.csv", {
 }
 
 papaPlease(getTheData); // runs everything
-
-// next steps: change marker assignment to switch statement?
-// combine placing markers and building table into one for loop
-// link popup markers to table with ids somehow?
-
-
+    
   </script>
   </body>
 </html>
