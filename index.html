@@ -12,11 +12,21 @@
 
    <style>
    	#mapid { 
-   		height: 400px;
-   		width: 600px;
+   		height: 60vh;
+      min-height: 400px;
+   		width: 100%;
       margin: 0px auto 0;
-
    	}
+    .wrapper {
+      width: 60%;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .wrapper p {
+      text-align: right;
+      margin-top: 0;
+      padding-right: 10px;
+    }
     h1 {
       text-align: center;
     }
@@ -26,21 +36,31 @@
       padding: 10px;
     }
     .tablediv {
-      width: 60%;
+      width: 70%;
       margin: 0 auto;
-      min-width: 600px;
+      /*min-width: 600px;*/
+      overflow-wrap: break-word;
+      overflow: auto;
     }
     td {
       padding: 10px;
+      overflow-wrap: break-word;
+      width: 30%;
+      min-width: 200px;
     }
     tr:nth-child(even) {
       background-color: #f2f2f2;
+    }
+    td:last-child {
+      /*background-color: blue;*/
+      max-width: 30vw;    
     }
     figure {
       /*max-height:50px;*/
       padding-top: 5px;
       display: inline-block;
       margin: 10px;
+      margin-bottom: 0;
     }
     figure img {
       max-height: 25px;
@@ -48,10 +68,13 @@
     }
     .key h2 {
       display: inline;
+      margin-bottom: 10px;
     }
     .key {
-      max-width: 600px;
+      /*max-width: 600px;*/
+      width: 100%;
       margin: auto;
+      margin-bottom: 0;
       align-items: right;
       display: flex;
       justify-content: flex-end;
@@ -66,28 +89,39 @@
     h1 {
       font-size: 3em;
     }
+
+    @media only screen and (max-width: 900px) {
+      .wrapper {
+        width: 95%;
+      }
+      .tablediv {
+        width: 95%;
+      }
+    }
    </style>
   </head>
   <body>
-  	<h1 id="top">Philly Makerspaces</h1>
-  	<div id="mapid"></div>
-    <div class="key">
-      <h2>Key:</h2>
-      <figure><img src="university1.png" alt="university"><caption>University</caption></figure>
-      <figure><img src="school1.png" alt="school"><caption>School</caption></figure>
-      <figure><img src="community1.png" alt="community"><caption>Community</caption></figure>
-      
-    </div>
-  <div class="tablediv">
-    <table id="mytable">
-      <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Website</th>
-      </tr>
-      
-    </table>
-  </div>
+    <div class="wrapper">
+    	<h1 id="top">Philly Makerspaces</h1>
+    	<div id="mapid"></div>
+      <div class="key">
+        <h2>Key:</h2>
+        <figure><img src="university1.png" alt="university"><caption>University</caption></figure>
+        <figure><img src="school1.png" alt="school"><caption>School</caption></figure>
+        <figure><img src="community1.png" alt="community"><caption>Community</caption></figure>
+      </div>
+      <p>Click on the name of the Makerspace to locate it on the map.</p>
+      </div>
+      <div class="tablediv">
+        <table id="mytable">
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Website</th>
+          </tr>
+        </table>
+      </div>
+    
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://unpkg.com/papaparse@4.6.3/papaparse.min.js"></script>
