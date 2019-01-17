@@ -15,7 +15,7 @@
    		height: 400px;
    		width: 600px;
       margin: 0px auto 0;
-      
+
    	}
     h1 {
       text-align: center;
@@ -175,16 +175,10 @@ for (i = 0; i < pmslist.length; i++) {
 
 // ------ Creating Unique Marker ID ----------
 
-  // var markerid = pmslist[i].Latitude + Math.floor(Math.random() * 10);
-  // markerid = markerid.toString();
-  // markerid = markerid.replace(".", "");
   var markerid = pmslist[i].Name.replace(/[^a-zA-Z ]/g, "");
   markerid = markerid.replace(/ /g,"_");
-  // console.log(markerid);
 
   pmslist[i].Markerid = markerid;
-
-  // console.log(pmslist[i].Markerid);
 
 // ------------ Placing Markers on the Map ----------
 
@@ -200,8 +194,6 @@ for (i = 0; i < pmslist.length; i++) {
   markers[markerid] = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: mtype});
   markers[markerid]._leaflet_id = markerid;
   mymap.addLayer(markers[markerid]);
-  // markers.addTo(mymap);
-
 
   var link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Name + '</a>';
   markers[markerid].bindPopup(link);
@@ -214,10 +206,6 @@ for (i = 0; i < pmslist.length; i++) {
   var cell1 = row.insertCell(0);
   var maplink = '<a href="#' + pmslist[i].Markerid + '" ' + 'id="' + pmslist[i].Markerid + 'z" class="cellx">' + pmslist[i].Name + '</a>';
   cell1.innerHTML = maplink;
-
-  // cell1.onclick = function(){
-  //   mymap._layers["MakerJawn"].fire('click');
-  // };
 
   var cell2 = row.insertCell(1);
   cell2.innerHTML = pmslist[i].Address;
@@ -233,29 +221,18 @@ for (i = 0; i < pmslist.length; i++) {
 var x = document.getElementsByClassName("cellx");
 var i;
 for (i = 0; i < x.length; i++) {
-  // x[i].id = x[i].id;
   var mID = x[i].id.slice(0, -1);
-  // console.log(mID);
   function clicky(mID, i) {
     x[i].onclick = function(){
       mymap._layers[mID].fire('click');
-      // console.log(i);
-
       mymap.setView([pmslist[i].Latitude, pmslist[i].Longitude], 15);
       window.scrollTo(0, 0);
-      console.log(pmslist[i]);
     };
   }
   clicky(mID, i);
 };
 
-
-
-// console.log(x);
-
-  // console.log(markerid);
 } // closes getTheData function
-
 
 
 
@@ -277,7 +254,7 @@ Papa.parse("data.csv", {
 }
 
 papaPlease(getTheData); // runs everything
-    
+
   </script>
   </body>
 </html>
