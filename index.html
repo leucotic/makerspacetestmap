@@ -133,6 +133,7 @@
 
 
 // -------- Make the map -------
+
   	var mymap = L.map('mapid').setView([39.952583,-75.165222], 12);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -198,14 +199,16 @@ var pmslist; // holds the JSON data
 function getTheData(a) {
   pmslist = a;
 
+
 // ------------ Building Webpage from Data ----------
 
-var i;
-var mtype;
-var myTable = document.getElementById("mytable");
-var markers = {};
+  var i; // iterator
+  var mtype; // marker type
+  var myTable = document.getElementById("mytable");
+  var markers = {}; // holds marker IDs
 
-for (i = 0; i < pmslist.length; i++) { 
+  for (i = 0; i < pmslist.length; i++) { 
+
 
 // ------ Creating Unique Marker ID ----------
 
@@ -213,6 +216,7 @@ for (i = 0; i < pmslist.length; i++) {
   markerid = markerid.replace(/ /g,"_");
 
   pmslist[i].Markerid = markerid;
+
 
 // ------------ Placing Markers on the Map ----------
 
@@ -233,12 +237,12 @@ for (i = 0; i < pmslist.length; i++) {
   markers[markerid].bindPopup(link);
 
 
-
 // ------ Building the Directory Table -------
+
   var row = myTable.insertRow(-1);
 
   var cell1 = row.insertCell(0);
-  var maplink = '<a href="#' + pmslist[i].Markerid + '" ' + 'id="' + pmslist[i].Markerid + 'z" class="cellx">' + pmslist[i].Name + '</a>';
+  var maplink = '<a href="#' + pmslist[i].Markerid + '" ' + 'id="' + pmslist[i].Markerid + '_" class="cellx">' + pmslist[i].Name + '</a>';
   cell1.innerHTML = maplink;
 
   var cell2 = row.insertCell(1);
@@ -250,24 +254,24 @@ for (i = 0; i < pmslist.length; i++) {
 
   } // closes forloop
 
+
   // --------- Making location name open up popup on map ----------
 
-var x = document.getElementsByClassName("cellx");
-var i;
-for (i = 0; i < x.length; i++) {
-  var mID = x[i].id.slice(0, -1);
-  function clicky(mID, i) {
-    x[i].onclick = function(){
-      mymap._layers[mID].fire('click');
-      mymap.setView([pmslist[i].Latitude, pmslist[i].Longitude]);
-      window.scrollTo(0, 0);
-    };
+  var x = document.getElementsByClassName("cellx"); // get column 1 cells
+  for (i = 0; i < x.length; i++) {
+    var mID = x[i].id.slice(0, -1); // remove the extra underscore
+    clicky(mID, i);
+  };
+
+  function clicky(mID, i) { // locate corresponding marker and activate popup
+      x[i].onclick = function(){
+        mymap._layers[mID].fire('click');
+        mymap.setView([pmslist[i].Latitude, pmslist[i].Longitude]);
+        window.scrollTo(0, 0);
+      };
   }
-  clicky(mID, i);
-};
 
 } // closes getTheData function
-
 
 
 // --------- Papa Please (Parsing CSV into JSON) ----------
