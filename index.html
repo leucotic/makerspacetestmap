@@ -225,7 +225,7 @@ for (i = 0; i < x.length; i++) {
   function clicky(mID, i) {
     x[i].onclick = function(){
       mymap._layers[mID].fire('click');
-      mymap.setView([pmslist[i].Latitude, pmslist[i].Longitude], 15);
+      mymap.setView([pmslist[i].Latitude, pmslist[i].Longitude]);
       window.scrollTo(0, 0);
     };
   }
