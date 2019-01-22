@@ -221,29 +221,19 @@
    integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
    crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/js/L.Control.OpenCageSearch.min.js"></script>
+<!-- <script src="providers.js"></script> -->
+<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
   <script>
 
 
 // -------- Make the map -------
 
+
+
   	var mymap = L.map('mapid').setView([39.952583,-75.165222], 12);
 
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.streets',
-    accessToken: 'pk.eyJ1IjoibGV1Y290aWMiLCJhIjoiY2pxcG81YWF0MDNtcjQzbnFkenFhYmNnNiJ9.zK4ptFX_rj3ux9Nm-bPXdg'
-}).addTo(mymap);
-
-// ------- openCageSearch Geocoding?? ------
-
-// var options = {
-//     key: '5ccf5298ef374a0f9f896afcb5293a10',
-//     limit: 5,
-//     proximity: '39.952583,-75.165222'
-// };
-// var control = L.Control.openCageSearch(options).addTo(mymap);
-
+        var layer = new L.StamenTileLayer("toner");
+        mymap.addLayer(layer);
 
 
 // ------- Set up custom map icons -----
