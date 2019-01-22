@@ -222,7 +222,7 @@
    crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/js/L.Control.OpenCageSearch.min.js"></script>
 <!-- <script src="providers.js"></script> -->
-<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+<script type="text/javascript" src="https://stamen-tiles.a.ssl.fastly.net"></script>
   <script>
 
 
@@ -230,10 +230,10 @@
 
 
 
-  	var mymap = L.map('mapid').setView([39.952583,-75.165222], 12);
+  	   var mymap = L.map('mapid').setView([39.952583,-75.165222], 12);
 
-        var layer = new L.StamenTileLayer("toner");
-        mymap.addLayer(layer);
+      var layer = new L.StamenTileLayer("toner");
+      mymap.addLayer(layer);
 
 
 // ------- Set up custom map icons -----
