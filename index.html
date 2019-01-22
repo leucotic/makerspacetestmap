@@ -99,7 +99,7 @@
     h1 {
       font-size: 3em;
     }
-    .mobile .key{
+    div.mobile{
       display: none;
     }
     @media only screen and (max-width: 900px) {
@@ -135,10 +135,10 @@
       .key .desktop {
         display: none;
       }
-      .mobile .key{
-        display: flex;
+      div.mobile {
+        display: flex !important;
         position: relative;
-        top: 85vh;
+        /*top: 85vh;*/
         z-index: 9999;
         /*height: 5vh;*/
         width: 100%;
