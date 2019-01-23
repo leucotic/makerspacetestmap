@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philly Makerspaces</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/css/L.Control.OpenCageData.Search.min.css" />
+
+   <style>
+   .super-wrapper {
+    /*display: flex;*/
+    /*justify-content: center;*/
+    align-content: top;
+    overflow: hidden;
+    /*background-color: pink;*/
+    margin: 0;
+   }
+   	#mapid { 
+   		height: 70vh;
+      /*min-height: 400px;*/
+   		width: 100%;
+      margin: 0px auto 0;
+   	}
+    .wrapper {
+      width: 49.5%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .wrapper p {
+      text-align: right;
+      margin-top: 0;
+      padding-right: 10px;
+    }
+    h1 {
+      text-align: center;
+    }
+    th {
+      text-align: left;
+      font-size: 1.5em;
+      padding: 10px;
+    }
+    .tablediv {
+      display: inline-block;
+      width: 50%;
+      height: 100%;
+      margin: 0 auto;
+      /*top: 0px;*/
+      /*top: 0;*/
+      /*min-width: 600px;*/
+      overflow-wrap: break-word;
+      overflow: auto;
+      /*margin-bottom: 100px;*/
+      /*padding-bottom: 300px;*/
+    }
+    .tablediv table {
+        max-height: calc(100% - 10em);
+        overflow: auto;
+      }
+
+    /*tr:last-child {
+      padding-bottom: 200px;
+    }*/
+    td {
+      padding: 10px;
+      overflow-wrap: break-word;
+      width: 30%;
+      min-width: 200px;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    td:last-child {
+      /*background-color: blue;*/
+      max-width: 30vw;    
+    }
+    figure {
+      /*max-height:50px;*/
+      padding-top: 5px;
+      /*display: inline-block;*/
+      margin: 10px;
+      margin-bottom: 0;
+    }
+    figure img {
+      max-height: 25px;
+      width: auto;
+    }
+    .key h2 {
+      display: inline;
+      margin-bottom: 10px;
+      order: 4;
+    }
+    .key {
+      /*max-width: 600px;*/
+      width: 100%;
+      margin: auto;
+      margin-bottom: 0;
+      flex-direction: row-reverse;
+      display: flex;
+      overflow: hidden;
+      flex-wrap: wrap;
+      /*justify-content: flex-end;*/
+      align-items: flex-start;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      height: 87vh;
+      /*overflow: hidden;*/
+    }
+    h1, h2, th {
+      font-family: 'Inconsolata', monospace;
+    }
+    h1 {
+      font-size: 3em;
+    }
+    div.mobile{
+      display: none;
+    }
+    @media only screen and (max-width: 900px) {
+      .wrapper {
+        width: 100%;
+        height: 40vh;
+        overflow: hidden;
+      }
+      header {
+        height: 10vh;
+        overflow: hidden;
+      }
+      #mapid {
+        height: 105%;
+      }
+      .tablediv {
+        width: 100%;
+        height: 38vh;
+        /*overflow: hidden;*/
+      }
+
+      td {
+        padding: 5px;
+        min-width: 100px;
+      }
+      th {
+        padding: 5px;
+      }
+      h1 {
+        font-size: 2em;
+        /*height: 4vh;*/
+        margin: 10px;
+      }
+      .key .desktop {
+        display: none;
+      }
+      div.mobile {
+        display: flex !important;
+        position: relative;
+        /*top: 85vh;*/
+        z-index: 9999;
+        /*height: 5vh;*/
+        width: 100%;
+        height: 10vh;
+        /*overflow: hidden;*/
+        flex-wrap: wrap;
+        /*height: 300px;*/
+        justify-content: center;
+        align-content: top;
+      }
+      figure {
+        font-size: .9em;
+        margin: 5px;
+        max-height: 20px;
+      }
+      figure img {
+        max-height: 20px;
+      }
+      .key h2 {
+        margin: 10px 0 0 0;
+        max-height: 30px;
+        /*margin-block-end: 0em;*/
+      }
+      .key p {
+        width: 100%;
+        flex: 0 0 auto;
+        /*margin: 0;*/
+        /*display: */
+        /*min-width: 300px;*/
+        padding: 0;
+        margin:0;
+        /*margin-top: -20px;*/
+        order: 5;
+        font-size: .8em;
+        text-align: center;
+      }
+      body {
+        /*height: 100vh;*/
+        /*overflow: hidden;*/
+      }
+    }
+   </style>
+  </head>
+
+  <body>
+    <!-- <div class="super-wrapper">  -->
+    <header>
+    <h1 id="top">Philly Makerspaces</h1>
+    </header>
+       
+    <div class="wrapper">
+    	
+    	<div id="mapid"></div>
+      <div class="key desktop">
+        <h2>Key:</h2>
+        <figure><img src="university1.png" alt="university"><caption>University</caption></figure>
+        <figure><img src="school1.png" alt="school"><caption>School</caption></figure>
+        <figure><img src="community1.png" alt="community"><caption>Community</caption></figure>
+      </div>
+      <p>Click on the name of the Makerspace to locate it on the map.</p>
+    </div>
+      <div class="tablediv">
+        <table id="mytable">
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Website</th>
+          </tr>
+        </table>
+      </div>
+      <div class="key mobile">
+        <h2>Key:</h2>
+        <figure><img src="university1.png" alt="university"><caption>University</caption></figure>
+        <figure><img src="school1.png" alt="school"><caption>School</caption></figure>
+        <figure><img src="community1.png" alt="community"><caption>Community</caption></figure>
+        <p>Click on the name of the Makerspace to locate it on the map.</p>
+      </div>
+      <!-- </div> -->
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://unpkg.com/papaparse@4.6.3/papaparse.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+   integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+   crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/js/L.Control.OpenCageSearch.min.js"></script>
+<!-- <script src="providers.js"></script> -->
+<script type="text/javascript" src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js"></script>
+  <script>
+
+
+// -------- Make the map -------
+
+
+
+  	   var mymap = L.map('mapid').setView([39.952583,-75.165222], 12);
+
+      var layer = new L.StamenTileLayer("toner");
+      mymap.addLayer(layer);
+
+
+// ------- Set up custom map icons -----
+
+
+var communityIcon = L.icon({
+    iconUrl: 'community1.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png',
+
+    iconSize:     [38, 40], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [10, 36], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [9, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+var universityIcon = L.icon({
+    iconUrl: 'university1.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png',
+
+    iconSize:     [38, 40], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [10, 36], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [9, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+var schoolIcon = L.icon({
+    iconUrl: 'school1.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png',
+
+    iconSize:     [38, 40], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [10, 36], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [9, -40] // point from which the popup should open relative to the iconAnchor
+});
+
+
+
+// --------- Setting up Data ----------
+
+var pmslist; // holds the JSON data
+
+function getTheData(a) {
+  pmslist = a;
+
+
+// ------------ Building Webpage from Data ----------
+
+  var i; // iterator
+  var mtype; // marker type
+  var myTable = document.getElementById("mytable");
+  var markers = {}; // holds marker IDs
+
+  for (i = 0; i < pmslist.length; i++) { 
+
+
+// ------ Creating Unique Marker ID ----------
+
+  var markerid = pmslist[i].Name.replace(/[^a-zA-Z ]/g, "");
+  markerid = markerid.replace(/ /g,"_");
+
+  pmslist[i].Markerid = markerid;
+
+
+// ------------ Placing Markers on the Map ----------
+
+  if (pmslist[i].Type == "school") {
+    mtype = schoolIcon;
+  }
+  else if (pmslist[i].Type == "university") {
+        mtype = universityIcon;
+  }
+  else {
+    mtype = communityIcon;
+  }
+  markers[markerid] = L.marker([pmslist[i].Latitude, pmslist[i].Longitude], {icon: mtype});
+  markers[markerid]._leaflet_id = markerid;
+  mymap.addLayer(markers[markerid]);
+
+  var link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Name + '</a>';
+  markers[markerid].bindPopup(link);
+
+
+// ------ Building the Directory Table -------
+
+  var row = myTable.insertRow(-1);
+
+  var cell1 = row.insertCell(0);
+  var maplink = '<a href="#' + pmslist[i].Markerid + '" ' + 'id="' + pmslist[i].Markerid + '_" class="cellx">' + pmslist[i].Name + '</a>';
+  cell1.innerHTML = maplink;
+
+  var cell2 = row.insertCell(1);
+  cell2.innerHTML = pmslist[i].Address;
+
+  var cell3 = row.insertCell(2);
+  link = '<a href="' + pmslist[i].Website + '">' + pmslist[i].Website + '</a>';
+  cell3.innerHTML = link;
+
+  } // closes forloop
+
+
+  // --------- Making location name open up popup on map ----------
+
+  var x = document.getElementsByClassName("cellx"); // get column 1 cells
+  for (i = 0; i < x.length; i++) {
+    var mID = x[i].id.slice(0, -1); // remove the extra underscore
+    clicky(mID, i);
+  };
+
+  function clicky(mID, i) { // locate corresponding marker and activate popup
+      x[i].onclick = function(){
+        mymap._layers[mID].fire('click');
+        mymap.setView([pmslist[i].Latitude, pmslist[i].Longitude]);
+        window.scrollTo(0, 0);
+      };
+  }
+
+} // closes getTheData function
+
+
+// --------- Papa Please (Parsing CSV into JSON) ----------
+
+function papaPlease(callback) {
+
+Papa.parse("verified.csv", {
+  download: true,
+  delimiter: "", 
+  newline: "",  
+  quoteChar: '"',
+  escapeChar: '"',
+  header: true,
+  complete: function(results, file){
+    return callback(results.data);
+    }
+  });
+}
+
+papaPlease(getTheData); // runs everything
+
+// var y = document.getElementsByClassName("tablediv");
+// var x = document.getElementsByTagName("HEADER");
+// function constHeight (x, y) {
+
+//   console.log(x[0].style.height);
+//   // y[0].style.height = "100%";
+//     // console.log(y[0]);
+// }
+// constHeight(x, y);
+
+  </script>
+  </body>
+</html>
