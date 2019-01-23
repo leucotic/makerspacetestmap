@@ -12,11 +12,20 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/css/L.Control.OpenCageData.Search.min.css" />
 
    <style>
+   .super-wrapper {
+    /*display: flex;*/
+    /*justify-content: center;*/
+    align-content: top;
+    overflow: hidden;
+    /*background-color: pink;*/
+    margin: 0;
+   }
    	#mapid { 
    		height: 70vh;
       /*min-height: 400px;*/
    		width: 100%;
       margin: 0px auto 0;
+      z-index: 1;
    	}
     .wrapper {
       width: 49.5%;
@@ -42,12 +51,23 @@
       display: inline-block;
       width: 50%;
       height: 100%;
-      margin: 0;
-      top: 0;
+      margin: 0 auto;
+      /*top: 0px;*/
+      /*top: 0;*/
       /*min-width: 600px;*/
       overflow-wrap: break-word;
       overflow: auto;
+      /*margin-bottom: 100px;*/
+      /*padding-bottom: 300px;*/
     }
+    .tablediv table {
+        max-height: calc(100% - 10em);
+        overflow: auto;
+      }
+
+    /*tr:last-child {
+      padding-bottom: 200px;
+    }*/
     td {
       padding: 10px;
       overflow-wrap: break-word;
@@ -92,20 +112,135 @@
     body {
       font-family: 'Roboto', sans-serif;
       font-weight: 300;
+      height: 87vh;
+      margin: 0;
+      /*overflow: hidden;*/
     }
     h1, h2, th {
       font-family: 'Inconsolata', monospace;
     }
     h1 {
       font-size: 3em;
+      margin: 0;
+      padding: .5em;
     }
     div.mobile{
       display: none;
     }
-    body {
-        height: 100vh;
-        overflow: hidden;
-      }
+    header {
+      /*position: relative;*/
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      position: absolute;
+      /*width:60px;
+      height: 60px;*/
+      /*overflow: hidden;*/
+      left:0;
+      top: 0;
+      transition-delay: .3s;
+      
+    }
+
+    nav .menu {
+      position: absolute;
+      /*width: 10em;
+      height: 10em;*/
+      z-index: 5;
+      top: 0;
+      background-color: black;
+      /*border-bottom-right-radius: 50px;*/
+      /*transform: translate(-50%, -50%);*/
+      transition: all .3s;
+      /*display: none;*/
+      left:-500px;
+      height: 100vh;
+      
+    }
+    nav.change .menu {
+      display: block;
+      /*animation-name: fromleft;
+      animation-duration: .5s;*/
+      left: 0;
+    }
+    nav ul {
+      /*position: absolute;*/
+      /*left: 15vw;
+      top: 50vh;*/
+      z-index: 99999;
+      /*transform: translate(-50%, -50%);*/
+      text-align: right;
+      /*display: none;*/
+      list-style: none;
+    }
+    nav ul a {
+      display: block;
+      color: white;
+      font-size: 1.2rem;
+      text-decoration: none;
+      margin: 3rem 2rem 3rem 1rem;
+      color: gray;
+      white-space: nowrap;
+      /*overflow-wrap: normal;*/
+      /*width: 7em;*/
+    }
+    nav ul a:hover, nav ul a:active {
+      color: white;
+    }
+    .menu-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: pink;
+      height: 3.5em;
+      width: 4em;
+      padding-top: 10px;
+      /*padding-left: 10px;*/
+      /*overflow: hidden;*/
+      z-index: 80;
+      border-bottom-right-radius: 40px;
+      background-color: black;
+      cursor:pointer;
+    }
+    .menu-icon:hover span, .menu-icon:active span{
+      background-color: white;
+    }
+    .menu-icon span {
+      /*position: absolute;*/
+      display: block;
+      height: 5px;
+      width: 30px;
+      border-radius: 2px;
+      /*top: 0;
+      left: 0;*/
+      background-color: gray;
+      margin: 5px 10px;
+      z-index: 99;
+      transition: all ease .3s;
+      -webkit transition: all ease 3s;
+    }
+    /*.menu-icon span::after {
+      position: absolute;
+      height: 5px;
+      width: 30px;
+      top: 20px;
+      left: 0;
+      background-color: white;
+      margin: 10px 20px 5px;
+      z-index: 98;
+    }*/
+@keyframes fromleft {
+  from {left:-500px;}
+  to {left:0px;}
+}
+@keyframes toleft {
+  from {left:0px;}
+  to {left:-500px;}
+}
+
+    /* ------------------------------------- Mobile ----------------------------- */
+
     @media only screen and (max-width: 900px) {
       .wrapper {
         width: 100%;
@@ -124,6 +259,7 @@
         height: 38vh;
         /*overflow: hidden;*/
       }
+
       td {
         padding: 5px;
         min-width: 100px;
@@ -134,7 +270,7 @@
       h1 {
         font-size: 2em;
         /*height: 4vh;*/
-        margin: 10px;
+        margin: 10px 0 0 50px;
       }
       .key .desktop {
         display: none;
@@ -143,7 +279,7 @@
         display: flex !important;
         position: relative;
         /*top: 85vh;*/
-        z-index: 9999;
+        /*z-index: 9999;*/
         /*height: 5vh;*/
         width: 100%;
         height: 10vh;
@@ -180,16 +316,32 @@
         text-align: center;
       }
       body {
-        height: 100vh;
-        overflow: hidden;
+        /*height: 100vh;*/
+        /*overflow: hidden;*/
       }
     }
    </style>
   </head>
+
   <body>
+    <!-- <div class="super-wrapper">  -->
     <header>
-    <h1 id="top">Philly Makerspaces - All</h1>
+    
+    <nav id="topnav">
+      <div class="menu-icon" onclick="animOpen('topnav')"><span></span><span></span><span></span></div>
+      <div class="menu">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="https://leucotic.github.io/makerspacetestmap/">All locations</a></li>
+          <li><a href="https://leucotic.github.io/makerspacetestmap/verified.html">Verified Locations</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Etc.</a></li>
+        </ul>
+      </div>
+    </nav>
+    <h1 id="top">Philly Makerspaces</h1>
     </header>
+       
     <div class="wrapper">
     	
     	<div id="mapid"></div>
@@ -200,7 +352,7 @@
         <figure><img src="community1.png" alt="community"><caption>Community</caption></figure>
       </div>
       <p>Click on the name of the Makerspace to locate it on the map.</p>
-      <p>View: <a href="https://leucotic.github.io/makerspacetestmap/verified.html">Verified</a> | <a href="https://leucotic.github.io/makerspacetestmap/">All</a> locations.</p>
+      <!-- <p>View: <a href="https://leucotic.github.io/makerspacetestmap/verified.html">Verified</a> | <a href="https://leucotic.github.io/makerspacetestmap/">All</a> locations.</p> -->
     </div>
       <div class="tablediv">
         <table id="mytable">
@@ -218,6 +370,7 @@
         <figure><img src="community1.png" alt="community"><caption>Community</caption></figure>
         <p>Click on the name of the Makerspace to locate it on the map.</p>
       </div>
+      <!-- </div> -->
     
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -379,6 +532,22 @@ Papa.parse("data.csv", {
 }
 
 papaPlease(getTheData); // runs everything
+
+function animOpen(id) {
+    x = document.getElementById(id);
+    x.classList.toggle("change");
+    console.log("clicked");
+}
+
+// var y = document.getElementsByClassName("tablediv");
+// var x = document.getElementsByTagName("HEADER");
+// function constHeight (x, y) {
+
+//   console.log(x[0].style.height);
+//   // y[0].style.height = "100%";
+//     // console.log(y[0]);
+// }
+// constHeight(x, y);
 
   </script>
   </body>
